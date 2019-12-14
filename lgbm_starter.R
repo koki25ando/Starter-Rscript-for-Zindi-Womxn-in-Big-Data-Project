@@ -19,6 +19,20 @@ test_dat =  merged_dat[is.na(merged_dat$target), ]
 # LightGBM Modeling
 lgbm_train = lgb.Dataset(data = as.matrix(select(train_dat, -target)), label = train_dat$target)
 lbgm_test = data.matrix(select(test_dat, -target))
+
+params <- list(boosting_type = 'gbdt', 
+               objective = "regression" , 
+               metric = "rmse",
+               boost_from_average = "true", 
+               learning_rate = 0.008, 
+               num_leaves = 400, 
+               min_gain_to_split = 0,
+               feature_fraction = 0.7, 
+               bagging_freq = 1,
+               bagging_fraction = 0.7,
+               min_data_in_leaf = 200,
+               lambda_l1 = 0,
+               lambda_l2 = 0)
 lgb.model <- lgb.train(params = params,
                        data = lgbm_train,
                        nrounds=5000, 
